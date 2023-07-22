@@ -1,6 +1,6 @@
-import "./style.css";
 import "bootstrap";
 import "bootstrap/dist/css/bootstrap.css";
+import "./style.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "@popperjs/core";
 

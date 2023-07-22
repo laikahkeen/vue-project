@@ -1,42 +1,76 @@
-<script setup>
-import Navigation from "./components/Navigation.vue";
-</script>
+<script setup></script>
 
 <template>
-	<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+	<nav class="navbar navbar-expand-lg bg-primary text-white fixed-top">
 		<div class="container-fluid">
-			<router-link to="/" class="navbar-brand link-body-emphasis">
-				<i class="bi pe-none me-2 bi-bootstrap"></i>
-				<span class="fs-5 fw-semibold">Vue Project</span>
-			</router-link>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
-				<div class="navbar-nav">
-					<router-link to="/" class="nav-link">Home</router-link>
-					<router-link to="/" class="nav-link">Link</router-link>
-					<div class="dropdown">
-						<button class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Dropdown</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Action</a></li>
-							<li><a class="dropdown-item" href="#">Another action</a></li>
-							<li><hr class="dropdown-divider" /></li>
-							<li><a class="dropdown-item" href="#">Something else here</a></li>
-						</ul>
-					</div>
-					<router-link to="/" class="nav-link">Disabled</router-link>
+			<div class="d-flex">
+				<button
+					class="btn btn-sm btn-primary"
+					type="button"
+					data-bs-toggle="collapse"
+					data-bs-target="#collapseSideBar">
+					<i class="bi bi-list"></i>
+				</button>
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-house-door"></i>
+				</button>
+				<div class="input-group input-group-sm ms-2">
+					<span class="input-group-text"
+						><i class="bi bi-search"></i
+					></span>
+					<input
+						type="text"
+						class="form-control"
+						placeholder="Search" />
 				</div>
-				<form @submit.prevent="" class="d-flex">
-					<input type="text" name="" id="" class="form-control me-2" />
-					<button type="submit" class="btn btn-outline-primary">Search</button>
-				</form>
+			</div>
+			<div class="d-flex align-items-center">
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-star-fill me-2"></i>
+					<span class="fs-7 text-nowrap">Upgrade to Pro</span>
+				</button>
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-plus"></i>
+				</button>
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-graph-up"></i>
+				</button>
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-question-circle"></i>
+				</button>
+				<button class="btn btn-sm btn-primary" type="button">
+					<i class="bi bi-bell"></i>
+				</button>
+				<div class="rounded bg-white" style="width: 24px; height: 24px">
+					<img src="/logo-k.svg" alt="logo" class="align-top" />
+				</div>
 			</div>
 		</div>
 	</nav>
-	<Navigation />
-	<main>
-		<router-view></router-view>
+	<main style="height: calc(100vh - 47px); margin-top: 47px" class="d-flex">
+		<div class="collapse collapse-horizontal show" id="collapseSideBar">
+			<div
+				class="p-3 bg-body-tertiary"
+				style="width: 300px; height: 100%">
+				<div class="d-flex flex-column">
+					<button class="btn btn-light text-start">
+						<i class="bi bi-inboxes me-2 text-primary"></i>Inbox
+					</button>
+					<button class="btn btn-light text-start">
+						<i class="bi bi-calendar2-check me-2 text-success"></i
+						>Today
+					</button>
+					<button class="btn btn-light text-start">
+						<i class="bi bi-calendar3 me-2 text-warning"></i
+						>Upcoming
+					</button>
+					<button class="btn btn-light text-start">
+						<i class="bi bi-grid me-2 text-info"></i>Filter & Labels
+					</button>
+				</div>
+			</div>
+		</div>
+		<div class="container"></div>
 	</main>
 </template>
 

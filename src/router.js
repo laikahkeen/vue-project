@@ -1,23 +1,39 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "./views/Home.vue";
-import About from "./views/About.vue";
-import User from "./views/User.vue";
+import Inbox from "./views/Inbox.vue";
+import Today from "./views/Today.vue";
+import TodayChildren from "./views/TodayChildren.vue";
 
 const history = createWebHistory();
 
 export const routes = [
 	{
-		path: "/",
-		name: "Home",
-		component: Home,
-		children: [{ path: "/user", name: "User", component: User }],
+		path: "/inbox",
+		name: "Inbox",
+		component: Inbox,
 	},
-	{ path: "/about", name: "About", component: About },
+	{
+		path: "/today",
+		name: "Today",
+		component: Today,
+		children: [
+			{
+				path: "/today/:children",
+				name: "TodayChildren",
+				component: TodayChildren,
+			},
+		],
+	},
+	{ path: "/", redirect: { name: "Inbox" } },
 ];
 
 const router = createRouter({
 	history,
 	routes,
+});
+
+router.beforeEach((to, from, next) => {
+	document.title = to.name;
+	next();
 });
 
 export default router;

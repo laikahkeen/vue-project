@@ -10,10 +10,14 @@
 		</div>
 		<div class="px-5 pt-4">
 			<div class="d-flex flex-column">
-				<ul class="list-group list-group-flush">
-					<TaskItem v-for="task in tasks" :task="task" :tasks="tasks" />
-					<AddTaskItem />
-				</ul>
+				<draggableComponent class="list-group list-group-flush" tag="ul" v-model="tasksArr" item-key="taskId">
+					<template #item="{ element }">
+						<TaskItem :task="element" />
+					</template>
+					<template #footer>
+						<AddTaskItem />
+					</template>
+				</draggableComponent>
 			</div>
 		</div>
 	</div>
@@ -22,8 +26,20 @@
 <script setup>
 import TaskItem from "../components/Task/TaskItem.vue";
 import AddTaskItem from "../components/Task/AddTaskItem.vue";
-import { ref } from "vue";
-const tasks = ref(JSON.parse(localStorage.getItem("task")) ?? []);
+import { useTasksStore } from "../store/task";
+import draggableComponent from "vuedraggable";
+import { computed } from "vue";
+
+const tasks = useTasksStore();
+const tasksArr = computed(() => {
+	return Object.entries(tasks.list).map(([key, value]) => {
+		return { ...value, taskId: key };
+	});
+});
+
+tasks.updateTask(4, "new name", "new description");
+
+console.log(tasksArr.value);
 </script>
 
 <style lang="scss" scoped></style>

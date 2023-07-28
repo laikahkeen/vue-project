@@ -1,10 +1,10 @@
 <template>
-	<li v-if="!isAddingTask" @click="toggleAddTask" class="btn list-group-item list-group-item-action">
+	<li v-if="!isAddingTask" @click="toggleAddTask" class="btn rounded-0 list-group-item list-group-item-action">
 		<i class="bi bi-plus-lg me-2"></i>
 		<span class="fs-7">Add task</span>
 	</li>
 	<div v-if="isAddingTask" class="card mt-2">
-		<form @submit.prevent="createTask">
+		<form @submit.prevent="handleAddTask">
 			<div class="card-body">
 				<input class="form-control-plaintext" type="text" id="taskName" placeholder="Task name" v-model="taskName" />
 				<input class="form-control-plaintext form-control-sm" type="text" id="description" placeholder="Description" v-model="taskDescription" />
@@ -24,11 +24,9 @@
 
 <script setup>
 import { ref } from "vue";
+import { useTasksStore } from "../../store/task";
 
-const props = defineProps({
-	tasks: Array,
-});
-
+const tasks = useTasksStore();
 const isAddingTask = ref(false);
 const taskName = ref("");
 const taskDescription = ref("");
@@ -37,20 +35,10 @@ function toggleAddTask() {
 	isAddingTask.value = !isAddingTask.value;
 }
 
-function fetchTask() {
-	return localStorage.getItem("task");
-}
-
-function createTask() {
+function handleAddTask() {
 	toggleAddTask();
-	let newTask = {
-		name: taskName.value,
-		description: taskDescription.value,
-	};
-	localStorage.setItem("task", JSON.stringify([...currentTask, newTask]));
+	tasks.addTask(taskName.value, taskDescription.value);
 	taskName.value = taskDescription.value = "";
-	console.log(currentTask);
-	console.log(newTask);
 }
 </script>
 

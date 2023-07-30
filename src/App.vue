@@ -7,9 +7,11 @@ import { Suspense } from "vue";
 <template>
 	<Navbar />
 	<Suspense>
-		<main style="height: calc(100vh - 47px); margin-top: 47px" class="d-flex">
+		<main
+			style="height: calc(100vh - 47px); margin-top: 47px"
+			class="d-flex">
 			<Sidebar />
-			<router-view></router-view>
+			<router-view style="max-width: 768px"></router-view>
 		</main>
 	</Suspense>
 </template>

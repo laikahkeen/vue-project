@@ -18,20 +18,19 @@ export const useSectionsStore = defineStore(category, () => {
 		return JSON.parse(newId) ? JSON.parse(newId)[category] ?? 0 : 0;
 	}
 
-	function createItem(name, description, order) {
+	function createItem(name, order) {
 		newId.value++;
 		list.value[newId.value] = {
 			name,
-			description,
 			order,
 			createdAt: new Date(),
 		};
 	}
 
-	function updateItem(id, name, description) {
+	function updateItem(id, name) {
 		if (list.value[id] === undefined) return;
 		const curr = list.value[id];
-		list.value[id] = { ...curr, name, description };
+		list.value[id] = { ...curr, name };
 	}
 
 	function updateListOrder(newArr) {
@@ -43,10 +42,7 @@ export const useSectionsStore = defineStore(category, () => {
 
 	watch(newId, (newId) => {
 		let newObject = JSON.parse(localStorage.getItem("newId"));
-		localStorage.setItem(
-			"newId",
-			JSON.stringify({ ...newObject, [category]: newId })
-		);
+		localStorage.setItem("newId", JSON.stringify({ ...newObject, [category]: newId }));
 	});
 
 	watch(

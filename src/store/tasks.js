@@ -18,12 +18,13 @@ export const useTasksStore = defineStore(category, () => {
 		return JSON.parse(newId) ? JSON.parse(newId)[category] ?? 0 : 0;
 	}
 
-	function createItem(name, description, order) {
+	function createItem(name, description, order, sectionId) {
 		newId.value++;
 		list.value[newId.value] = {
 			name,
 			description,
 			order,
+			sectionId,
 			createdAt: new Date(),
 		};
 	}
@@ -32,6 +33,12 @@ export const useTasksStore = defineStore(category, () => {
 		if (list.value[id] === undefined) return;
 		const curr = list.value[id];
 		list.value[id] = { ...curr, name, description };
+	}
+
+	function updateSectionId(id, sectionId) {
+		if (list.value[id] === undefined) return;
+		const curr = list.value[id];
+		list.value[id] = { ...curr, sectionId };
 	}
 
 	function updateListOrder(newArr) {
@@ -43,10 +50,7 @@ export const useTasksStore = defineStore(category, () => {
 
 	watch(newId, (newId) => {
 		let newObject = JSON.parse(localStorage.getItem("newId"));
-		localStorage.setItem(
-			"newId",
-			JSON.stringify({ ...newObject, [category]: newId })
-		);
+		localStorage.setItem("newId", JSON.stringify({ ...newObject, [category]: newId }));
 	});
 
 	watch(
@@ -65,6 +69,7 @@ export const useTasksStore = defineStore(category, () => {
 		getList,
 		createItem,
 		updateItem,
+		updateSectionId,
 		updateListOrder,
 	};
 });

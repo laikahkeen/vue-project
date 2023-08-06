@@ -1,7 +1,10 @@
 <template>
-	<TaskList />
+	<TaskList :section="null" />
 	<AddSectionItem />
-	<draggableComponent v-model="sectionsArr" item-key="id" @end="updateSectionOrder">
+	<draggableComponent
+		v-model="sectionsArr"
+		item-key="id"
+		@end="updateSectionOrder">
 		<template #item="{ element }">
 			<div class="d-flex flex-column">
 				<h6>{{ element.name }}</h6>

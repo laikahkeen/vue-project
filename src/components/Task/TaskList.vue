@@ -1,7 +1,14 @@
 <template>
-	<draggableComponent class="list-group list-group-flush" tag="ul" group="task" v-model="tasksArr" item-key="id" @end="updateTaskOrder">
+	<draggableComponent
+		class="list-group list-group-flush"
+		tag="ul"
+		group="task"
+		v-model="tasksArr"
+		item-key="id"
+		:data-id="prop.section ? prop.section.id : 0"
+		@end="updateTaskOrder">
 		<template #item="{ element }">
-			<TaskItem :task="element" />
+			<TaskItem :task="element" :data-id="element.id" />
 		</template>
 		<template #footer>
 			<AddTaskItem :section="section" />
@@ -28,7 +35,7 @@ function objToArr(list) {
 		})
 		.filter((task) => {
 			if (prop.section) return task.sectionId === prop.section.id;
-			return task.sectionId === undefined;
+			return task.sectionId === null;
 		})
 		.sort((a, b) => a.order - b.order);
 }
@@ -38,8 +45,12 @@ watch(tasks.list, (newList) => {
 	tasksArr.value = objToArr(newList);
 });
 
-function updateTaskOrder() {
-	tasks.updateListOrder(tasksArr.value);
+function updateTaskOrder(e) {
+	const taskId = e.item.dataset.id;
+	const fromSectionId = e.from.dataset.id;
+	const toSectionId = e.to.dataset.id;
+	const newIndex = e.newIndex;
+	tasks.moveTaskBetweenSection(taskId, fromSectionId, toSectionId, newIndex);
 }
 </script>
 

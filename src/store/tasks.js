@@ -5,7 +5,7 @@ const category = "tasks";
 
 export const useTasksStore = defineStore(category, () => {
 	const list = ref(getList());
-	const listCount = computed(() => list.value.length);
+	const listCount = computed(() => Object.values(list.value).length);
 	const newId = ref(getNewId());
 
 	function getList() {
@@ -41,16 +41,43 @@ export const useTasksStore = defineStore(category, () => {
 		list.value[id] = { ...curr, sectionId };
 	}
 
-	function updateListOrder(newArr) {
-		newArr.forEach((item, i) => {
-			if (list.value[item.id] === undefined) return;
-			list.value[item.id].order = i + 1;
+	function updateListOrder(sectionId) {
+		//problem is no ID
+		let section = Object.entries(list.value)
+			.map(([key, value]) => {
+				return { ...value, id: key };
+			})
+			.filter((task) => task.sectionId === sectionId);
+		section.sort((a, b) => a.order - b.order);
+		section.forEach((task, index) => {
+			let taskInState = list.value[task.id];
+			if (taskInState) {
+				taskInState.order = index + 1;
+			}
 		});
+	}
+
+	function moveTaskBetweenSection(
+		taskId,
+		fromSectionId,
+		toSectionId,
+		newIndex
+	) {
+		const task = list.value[taskId];
+		if (task) {
+			task.sectionId = toSectionId != 0 ? toSectionId : null;
+			task.order = newIndex + 1;
+			updateListOrder(fromSectionId);
+			updateListOrder(toSectionId);
+		}
 	}
 
 	watch(newId, (newId) => {
 		let newObject = JSON.parse(localStorage.getItem("newId"));
-		localStorage.setItem("newId", JSON.stringify({ ...newObject, [category]: newId }));
+		localStorage.setItem(
+			"newId",
+			JSON.stringify({ ...newObject, [category]: newId })
+		);
 	});
 
 	watch(
@@ -71,5 +98,6 @@ export const useTasksStore = defineStore(category, () => {
 		updateItem,
 		updateSectionId,
 		updateListOrder,
+		moveTaskBetweenSection,
 	};
 });

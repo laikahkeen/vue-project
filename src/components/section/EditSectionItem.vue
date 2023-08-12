@@ -5,7 +5,7 @@
 				<input class="form-control" type="text" id="sectionName" placeholder="Section name" v-model="sectionName" />
 				<div class="d-flex mt-2">
 					<button type="submit" class="btn btn-sm btn-primary">
-						{{ prop.task ? "Save" : "Add section" }}
+						{{ prop.section ? "Save" : "Add section" }}
 					</button>
 					<button type="button" class="btn btn-sm btn-secondary mx-2" @click="handleCancel">Cancel</button>
 				</div>

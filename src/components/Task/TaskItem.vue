@@ -1,8 +1,6 @@
 <template>
-	<li
-		v-if="!isEditingTask"
-		@click="toggleEditTask"
-		class="list-group-item list-group-item-action btn rounded-0">
+	<li v-if="!isEditingTask" @click="toggleEditTask" class="list-group-item list-group-item-action btn rounded-0">
+		<i class="bi bi-list me-2 handle" style="cursor: move"></i>
 		<i class="bi bi-circle me-2"></i>
 		<span class="fs-7">{{ task.name }} - {{ task.description }}</span>
 	</li>

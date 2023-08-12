@@ -1,23 +1,17 @@
 <template>
 	<TaskList :section="null" />
 	<AddSectionItem />
-	<draggableComponent
-		v-model="sectionsArr"
-		item-key="id"
-		@end="updateSectionOrder">
+	<draggableComponent v-model="sectionsArr" item-key="id" @end="updateSectionOrder">
 		<template #item="{ element }">
-			<div class="d-flex flex-column">
-				<h6>{{ element.name }}</h6>
-				<TaskList :section="element" />
-				<AddSectionItem />
-			</div>
+			<SectionItem :section="element" />
 		</template>
 	</draggableComponent>
 </template>
 
 <script setup>
 import AddSectionItem from "./AddSectionItem.vue";
-import TaskList from "../task/TaskList.vue";
+import SectionItem from "./SectionItem.vue";
+import TaskList from "../Task/TaskList.vue";
 import { useSectionsStore } from "../../store/sections";
 import draggableComponent from "vuedraggable";
 import { ref, watch } from "vue";

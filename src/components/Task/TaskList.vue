@@ -4,8 +4,9 @@
 		tag="ul"
 		group="task"
 		v-model="tasksArr"
-		item-key="id"
+		handle=".handle"
 		:data-id="prop.section ? prop.section.id : 0"
+		item-key="id"
 		@end="updateTaskOrder">
 		<template #item="{ element }">
 			<TaskItem :task="element" :data-id="element.id" />
@@ -28,6 +29,7 @@ const prop = defineProps({
 });
 
 const tasks = useTasksStore();
+
 function objToArr(list) {
 	return Object.entries(list)
 		.map(([key, value]) => {
@@ -50,7 +52,8 @@ function updateTaskOrder(e) {
 	const fromSectionId = e.from.dataset.id;
 	const toSectionId = e.to.dataset.id;
 	const newIndex = e.newIndex;
-	tasks.moveTaskBetweenSection(taskId, fromSectionId, toSectionId, newIndex);
+	const oldIndex = e.oldIndex;
+	tasks.moveTaskBetweenSection(taskId, fromSectionId, toSectionId, oldIndex, newIndex);
 }
 </script>
 
